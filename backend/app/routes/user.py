@@ -52,5 +52,8 @@ def login(user:UserLogin , db:Session = Depends(get_db)):
     }
 
 @router.get("/me")
-def get_me(current_user: User= Depends(get_current_user)):
-    return current_user
+def get_me(current_user: User = Depends(get_current_user)):
+    return {
+        "email": current_user.email,
+        "role": current_user.role
+    }

@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 export default function Register() {
+  const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
@@ -9,7 +10,7 @@ export default function Register() {
   const navigate = useNavigate()
 
   const handleRegister = async () => {
-    if (!email || !password) return
+    if (!name || !email || !password) return
 
     setLoading(true)
 
@@ -20,6 +21,7 @@ export default function Register() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
+          name: name,
           email: email,
           password: password
         })
@@ -29,13 +31,10 @@ export default function Register() {
 
       console.log("REGISTER RESPONSE:", data)
 
-      // if your backend returns token on register
-      if (data.access_token) {
-        localStorage.setItem("token", data.access_token)
-        navigate("/dashboard")
-      } else {
-
+      if (res.ok) {
         navigate("/")
+      } else {
+        alert(data.detail || "Registration failed")
       }
 
     } catch (err) {
@@ -55,8 +54,15 @@ export default function Register() {
         </h1>
 
         <p className="text-zinc-400 mb-6 text-sm">
-          Start using your dashboard
+          Register to get started
         </p>
+
+        <input
+          type="text"
+          placeholder="Name"
+          className="w-full mb-4 px-4 py-3 rounded-lg bg-zinc-800 text-white outline-none border border-zinc-700 focus:border-white transition"
+          onChange={(e) => setName(e.target.value)}
+        />
 
         <input
           type="email"

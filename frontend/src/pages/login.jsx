@@ -30,13 +30,28 @@ export default function Login() {
       console.log("LOGIN RESPONSE:", data)
 
       if (data.access_token) {
-        localStorage.setItem("token", data.access_token)
+  localStorage.setItem("token", data.access_token)
 
+  // fetch user details (includes role)
+  const meRes = await fetch("http://127.0.0.1:8000/users/me", {
+    headers: {
+      Authorization: `Bearer ${data.access_token}`
+    }
+  })
 
-        console.log("TOKEN STORED:", localStorage.getItem("token"))
+  const user = await meRes.json()
 
-        navigate("/dashboard")
-      } else {
+  console.log("USER DATA:", user)
+  
+  localStorage.setItem("role", user.role)
+
+  // role-based redirect
+  if (user.role === "admin") {
+    navigate("/admin")
+  } else {
+    navigate("/dashboard")
+  }
+} else {
         alert("Invalid credentials")
       }
     } catch (err) {
