@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.database import SessionLocal
 from app.models.user import User
 from app.schemas.user import UserCreate, UserResponse, UserLogin
-from app.core.security import hash_password , verify_password, create_access_token, get_current_user
+from app.core.security import get_current_admin, hash_password , verify_password, create_access_token, get_current_user
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -57,3 +57,7 @@ def get_me(current_user: User = Depends(get_current_user)):
         "email": current_user.email,
         "role": current_user.role
     }
+
+@router.get("/admin")
+def admin_dashboard(current_admin: User = Depends(get_current_admin)):
+    return {"message": "Admin access granted"}
