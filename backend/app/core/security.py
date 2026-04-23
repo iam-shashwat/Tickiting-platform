@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from app.database import SessionLocal
 from app.models.user import User
 
-SECRET_KEY = "your_secret_key"
+SECRET_KEY = "fb49195488347c20069b0b52c394c03cb794fdcebd7fd24107607a6fa06dc900"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
