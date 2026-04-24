@@ -148,7 +148,8 @@ export default function Admin() {
             {events.map((e) => (
               <div
                 key={e.id}
-                className="flex justify-between items-center bg-zinc-800 border border-zinc-700 rounded-xl p-4"
+                onClick={() => navigate(`/admin/event/${e.id}`)}
+                className="flex justify-between items-center bg-zinc-800 border border-zinc-700 rounded-xl p-4 cursor-pointer hover:border-white transition"
               >
                 <div>
                   <h3 className="font-medium">{e.title}</h3>
@@ -156,7 +157,10 @@ export default function Admin() {
                 </div>
 
                 <button
-                  onClick={() => deleteEvent(e.id)}
+                  onClick={(ev) => {
+                    ev.stopPropagation()
+                    deleteEvent(e.id)
+                  }}
                   className="px-4 py-2 bg-red-600 rounded-lg hover:bg-red-500 transition"
                 >
                   Delete

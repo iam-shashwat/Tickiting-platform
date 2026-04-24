@@ -2,6 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.event import Event
+from app.core.security import get_current_admin
+from app.models.user import User
+from app.schemas.event import EventCreate
 
 router = APIRouter(prefix="/events", tags=["Events"])
 
@@ -39,3 +42,20 @@ def delete_event(id: int, db: Session = Depends(get_db)):
     db.commit()
 
     return {"message": "Deleted"}
+
+
+# CREATE EVENT ADMIN ONLY
+@router.post("/events")
+def create_event(
+    event: EventCreate,
+    admin: User = Depends(get_current_admin),
+    db: Session = Depends(get_db)
+):
+    new_event = Event(
+        title = event.title,
+        description = event.description,
+        created_by = admin.id
+    )
+    db.add(new_event)
+    db.commit()
+    db.refresh(new_event)

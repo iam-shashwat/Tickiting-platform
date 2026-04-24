@@ -40,6 +40,14 @@ function UserDashboard() {
       }
     )
   }
+const [myBookings, setMyBookings] = useState([])
+
+  const fetchMyBookings = async () => {
+  const res = await axios.get("http://127.0.0.1:8000/book/my", {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  setMyBookings(res.data)
+}
 
   return (
    
