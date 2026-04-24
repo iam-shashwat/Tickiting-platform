@@ -64,7 +64,12 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black">
-      <div className="w-95 bg-zinc-900 p-8 rounded-2xl shadow-xl border border-zinc-800">
+      <form
+        onSubmit={(e) => {
+        e.preventDefault()
+        handleLogin()
+       }}
+      className="w-95 bg-zinc-900 p-8 rounded-2xl shadow-xl border border-zinc-800">
         
         <h1 className="text-2xl font-semibold text-white mb-2">
           Welcome Back
@@ -89,14 +94,22 @@ export default function Login() {
         />
 
         <button
-          onClick={handleLogin}
+          type="submit"
           disabled={loading}
           className="w-full py-3 rounded-lg bg-white text-black font-medium hover:bg-zinc-200 transition disabled:opacity-50"
         >
           {loading ? "Logging in..." : "Login"}
         </button>
-
-      </div>
+        <p className="text-zinc-400 text-sm mt-4 text-center">
+            Don't have an account?{" "}
+          <span
+            onClick={() => navigate("/register")}
+            className="text-white cursor-pointer hover:underline"
+          >
+               Register
+         </span>
+        </p>
+      </form>
     </div>
   )
 }

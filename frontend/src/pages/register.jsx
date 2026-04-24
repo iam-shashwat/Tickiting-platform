@@ -47,7 +47,12 @@ export default function Register() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black">
-      <div className="w-95 bg-zinc-900 p-8 rounded-2xl shadow-xl border border-zinc-800">
+      <form
+        onSubmit={(e) => {
+        e.preventDefault()
+          handleRegister()
+        }}
+        className="w-95 bg-zinc-900 p-8 rounded-2xl shadow-xl border border-zinc-800">
         
         <h1 className="text-2xl font-semibold text-white mb-2">
           Create Account
@@ -79,14 +84,22 @@ export default function Register() {
         />
 
         <button
-          onClick={handleRegister}
           disabled={loading}
+          type="submit"
           className="w-full py-3 rounded-lg bg-white text-black font-medium hover:bg-zinc-200 transition disabled:opacity-50"
         >
           {loading ? "Creating..." : "Register"}
         </button>
-
-      </div>
+        <p className="text-zinc-400 text-sm mt-4 text-center">
+            Already have an account?{" "}
+          <span
+            onClick={() => navigate("/")}
+            className="text-white cursor-pointer hover:underline"
+         >
+           Login
+           </span>
+        </p>
+      </form>
     </div>
   )
 }
