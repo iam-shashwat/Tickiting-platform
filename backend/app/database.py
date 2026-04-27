@@ -22,6 +22,14 @@ def ensure_event_schema():
         with engine.begin() as connection:
             connection.execute(text("ALTER TABLE events ADD COLUMN image_url VARCHAR"))
 
+    if "price" not in event_columns:
+        with engine.begin() as connection:
+            connection.execute(
+                text(
+                    "ALTER TABLE events ADD COLUMN price DOUBLE PRECISION NOT NULL DEFAULT 0"
+                )
+            )
+
 def get_db():
     db = SessionLocal()
     try:

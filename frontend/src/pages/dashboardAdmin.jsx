@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import SiteFooter from "../components/siteFooter"
-import { getEventCardStyle } from "../lib/utils"
+import { formatEventPrice, getEventCardStyle } from "../lib/utils"
 
 async function readFileAsDataUrl(file) {
   return new Promise((resolve, reject) => {
@@ -19,6 +19,7 @@ export default function Admin() {
   const [events, setEvents] = useState([])
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
+  const [price, setPrice] = useState("0")
   const [selectedImage, setSelectedImage] = useState(null)
   const [imagePreview, setImagePreview] = useState("")
   const [loading, setLoading] = useState(true)
@@ -26,6 +27,9 @@ export default function Admin() {
   const [error, setError] = useState("")
   const navigate = useNavigate()
   const imageInputRef = useRef(null)
+  const parsedPrice = Number.parseFloat(price)
+  const isPriceInvalid =
+    price.trim() === "" || Number.isNaN(parsedPrice) || parsedPrice < 0
 
   useEffect(() => {
     if (!selectedImage) {
@@ -106,8 +110,21 @@ export default function Admin() {
     setSelectedImage(file)
   }
 
+  const handleRemoveImage = () => {
+    setSelectedImage(null)
+    if (imageInputRef.current) {
+      imageInputRef.current.value = ""
+    }
+  }
+
   const createEvent = async () => {
-    if (!title.trim() || !description.trim()) return
+    if (!title.trim() || !description.trim() || isPriceInvalid) {
+      if (isPriceInvalid) {
+        alert("Please enter a valid ticket price.")
+      }
+
+      return
+    }
 
     const token = localStorage.getItem("token")
     setSaving(true)
@@ -126,6 +143,7 @@ export default function Admin() {
         body: JSON.stringify({
           title: title.trim(),
           description: description.trim(),
+          price: parsedPrice,
           image_data: imageData,
           image_name: selectedImage?.name || null,
         }),
@@ -141,6 +159,7 @@ export default function Admin() {
       setEvents((current) => [data, ...current])
       setTitle("")
       setDescription("")
+      setPrice("0")
       setSelectedImage(null)
 
       if (imageInputRef.current) {
@@ -173,8 +192,8 @@ export default function Admin() {
   return (
     <div className="min-h-screen overflow-hidden bg-[#05070d] text-white">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-6rem top-5rem h-64 w-64 rounded-full bg-white/6 blur-3xl" />
-        <div className="absolute bottom-5rem right-6rem h-72 w-72 rounded-full bg-white/4 blur-3xl" />
+        <div className="absolute left-24 top-20 h-64 w-64 rounded-full bg-white/6 blur-3xl" />
+        <div className="absolute bottom-20 right-24 h-72 w-72 rounded-full bg-white/4 blur-3xl" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-8">
@@ -226,7 +245,7 @@ export default function Admin() {
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="Launch meetup"
+                placeholder="Add your event Title here"
                 className="w-full rounded-2xl border border-white/10 bg-white/0.03 px-4 py-3 text-white outline-none transition focus:border-white/30"
               />
             </div>
@@ -246,15 +265,44 @@ export default function Admin() {
 
             <div className="mt-4">
               <label className="mb-2 block text-sm text-white/60">
-                Event image
+                Ticket price
               </label>
               <input
-                ref={imageInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="w-full rounded-2xl border border-white/10 bg-white/0.03 px-4 py-3 text-sm text-white outline-none transition file:mr-4 file:rounded-full file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-medium file:text-black hover:file:bg-zinc-200 focus:border-white/30"
+                type="number"
+                min="0"
+                step="1"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder=""
+                className="w-full rounded-2xl border border-white/10 bg-white/0.03 px-4 py-3 text-white outline-none transition focus:border-white/30 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
+              <p className="mt-2 text-xs text-zinc-500">
+                Use 0 for a free event. Public pages will show {formatEventPrice(parsedPrice)}.
+              </p>
+            </div>
+
+            <div className="mt-4">
+              <label className="mb-2 block text-sm text-white/60">
+                Event image
+              </label>
+              <div className="flex gap-2">
+                <input
+                  ref={imageInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="flex-1 rounded-2xl border border-white/10 bg-white/0.03 px-4 py-3 text-sm text-white outline-none transition file:mr-4 file:rounded-full file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-medium file:text-black hover:file:bg-zinc-200 focus:border-white/30"
+                />
+                {selectedImage && (
+                  <button
+                    type="button"
+                    onClick={handleRemoveImage}
+                    className="rounded-2xl border border-red-500/50 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-400 transition hover:bg-red-500/20 hover:border-red-500/70"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
               <p className="mt-2 text-xs text-zinc-500">
                 Upload a JPG, PNG, WEBP, or GIF from your device. Max 5MB.
               </p>
@@ -265,20 +313,30 @@ export default function Admin() {
                 className="relative h-40"
                 style={getEventCardStyle(imagePreview)}
               >
-                <div className="absolute inset-0 linear-gradient-to-t from-[#05070d] via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,7,13,0.1)_0%,rgba(5,7,13,0.88)_100%)]" />
                 <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-black/20 px-3 py-1 text-xs uppercase tracking-[0.24em] text-white/80 backdrop-blur-sm">
                   Preview
+                </div>
+                <div className="absolute right-4 top-4 rounded-full border border-white/15 bg-black/25 px-3 py-1 text-sm font-medium text-white backdrop-blur-sm">
+                  {formatEventPrice(parsedPrice)}
+                </div>
+                <div className="absolute inset-x-0 bottom-0 p-4">
+                  <p className="text-lg font-semibold text-white">
+                    {title.trim() || "Event title preview"}
+                  </p>
                 </div>
               </div>
             </div>
 
-            <button
-              onClick={createEvent}
-              disabled={saving || !title.trim() || !description.trim()}
-              className="mt-6 rounded-full bg-white px-5 py-3 text-sm font-medium text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {saving ? "Creating..." : "Create event"}
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={createEvent}
+                disabled={saving || !title.trim() || !description.trim() || isPriceInvalid}
+                className="mt-6 flex-1 rounded-full bg-white px-5 py-3 text-sm font-medium text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {saving ? "Creating..." : "Create event"}
+              </button>
+            </div>
           </section>
 
           <section className="rounded-3xl border border-white/10 bg-white/0.03 p-6">
@@ -337,6 +395,9 @@ export default function Admin() {
                       <div className="absolute left-5 top-5 rounded-full border border-white/15 bg-black/20 px-3 py-1 text-xs uppercase tracking-[0.24em] text-white/80 backdrop-blur-sm">
                         Event
                       </div>
+                      <div className="absolute right-5 top-5 rounded-full border border-white/15 bg-black/25 px-3 py-1 text-sm font-medium text-white backdrop-blur-sm">
+                        {formatEventPrice(event.price)}
+                      </div>
                     </div>
 
                     <div className="p-5">
@@ -345,6 +406,9 @@ export default function Admin() {
                       </h3>
                       <p className="mt-2 text-sm leading-6 text-zinc-400">
                         {event.description}
+                      </p>
+                      <p className="mt-4 text-sm font-medium text-white/85">
+                        Ticket price: {formatEventPrice(event.price)}
                       </p>
 
                       <div className="mt-6 flex items-center justify-between gap-3">

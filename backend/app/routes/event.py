@@ -105,6 +105,7 @@ def create_event(
     new_event = Event(
         title=event.title,
         description=event.description,
+        price=event.price,
         image_url=image_url,
         created_by=admin.id
     )

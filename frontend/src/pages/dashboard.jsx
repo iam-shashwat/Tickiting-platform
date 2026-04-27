@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import SiteFooter from "../components/siteFooter"
-import { getEventCardStyle } from "../lib/utils"
+import { formatEventPrice, getEventCardStyle } from "../lib/utils"
 
 function UserDashboard() {
   const [events, setEvents] = useState([])
@@ -88,8 +88,8 @@ function UserDashboard() {
   return (
     <div className="min-h-screen overflow-hidden bg-[#05070d] text-white">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-[-6rem] top-[-5rem] h-64 w-64 rounded-full bg-white/6 blur-3xl" />
-        <div className="absolute right-[-6rem] bottom-[-5rem] h-72 w-72 rounded-full bg-white/4 blur-3xl" />
+        <div className="absolute left-24 top-20 h-64 w-64 rounded-full bg-white/6 blur-3xl" />
+        <div className="absolute right-24 bottom-20 h-72 w-72 rounded-full bg-white/4 blur-3xl" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-8">
@@ -115,7 +115,7 @@ function UserDashboard() {
         </div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-2">
-          <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+          <div className="rounded-3xl border border-white/10 bg-white/0.03 p-6">
             <p className="text-sm uppercase tracking-[0.24em] text-white/35">
               My bookings
             </p>
@@ -123,7 +123,7 @@ function UserDashboard() {
               {myBookings.length}
             </p>
           </div>
-          <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+          <div className="rounded-3xl border border-white/10 bg-white/0.03 p-6">
             <p className="text-sm uppercase tracking-[0.24em] text-white/35">
               Available events
             </p>
@@ -148,7 +148,7 @@ function UserDashboard() {
               {Array.from({ length: 4 }).map((_, index) => (
                 <div
                   key={index}
-                  className="rounded-3xl border border-white/10 bg-white/[0.03] p-6"
+                  className="rounded-3xl border border-white/10 bg-white/0.03 p-6"
                 >
                   <div className="h-5 w-2/3 rounded-full bg-white/8" />
                   <div className="mt-4 h-4 w-full rounded-full bg-white/8" />
@@ -157,11 +157,11 @@ function UserDashboard() {
               ))}
             </div>
           ) : error ? (
-            <div className="mt-8 rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+            <div className="mt-8 rounded-3xl border border-white/10 bg-white/0.03 p-6">
               <p className="text-lg font-medium text-white">{error}</p>
             </div>
           ) : events.length === 0 ? (
-            <div className="mt-8 rounded-3xl border border-white/10 bg-white/[0.03] p-6">
+            <div className="mt-8 rounded-3xl border border-white/10 bg-white/0.03 p-6">
               <p className="text-lg font-medium text-white">No events found</p>
               <p className="mt-2 text-sm text-zinc-400">
                 New events will appear here once they are added.
@@ -175,13 +175,13 @@ function UserDashboard() {
                 return (
                   <article
                     key={event.id}
-                    className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]"
+                    className="overflow-hidden rounded-3xl border border-white/10 bg-white/0.03"
                   >
                     <div
                       className="relative h-48 border-b border-white/10"
                       style={getEventCardStyle(event.image_url)}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#05070d] via-transparent to-transparent" />
+                      <div className="absolute inset-0 linear-gradient-to-t from-[#05070d] via-transparent to-transparent" />
                       <div className="absolute left-5 top-5 rounded-full border border-white/15 bg-black/20 px-3 py-1 text-xs uppercase tracking-[0.24em] text-white/80 backdrop-blur-sm">
                         Event
                       </div>
@@ -193,6 +193,9 @@ function UserDashboard() {
                           <h3 className="text-xl font-semibold tracking-tight text-white">
                             {event.title}
                           </h3>
+                          <p className="mt-3 text-sm font-medium text-white/85">
+                            Ticket price: {formatEventPrice(event.price)}
+                          </p>
                           <p className="mt-3 text-sm leading-7 text-zinc-400">
                             {event.description}
                           </p>

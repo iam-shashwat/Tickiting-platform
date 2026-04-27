@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Float, ForeignKey, Integer, String
 from app.database import Base
 
 class Event(Base):
@@ -8,5 +8,6 @@ class Event(Base):
     title = Column(String)
     description = Column(String)
     image_url = Column(String, nullable=True)
+    price = Column(Float, nullable=False, default=0)
 
     created_by = Column(Integer, ForeignKey("users.id"))

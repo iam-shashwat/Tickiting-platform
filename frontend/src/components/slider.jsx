@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getEventCardStyle } from "../lib/utils"
+import { formatEventPrice, getEventCardStyle } from "../lib/utils"
 
 export default function Slider({ events, loading, error }) {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -46,18 +46,18 @@ export default function Slider({ events, loading, error }) {
 
   if (loading) {
     return (
-      <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/0.03 p-4">
-        <div className="h-26rem rounded-[1.5rem] bg-white/0.04]" />
-        <div className="mt-4 h-7 w-1/3 rounded-full bg-white/0.8" />
-        <div className="mt-3 h-4 w-full rounded-full bg-white/0.8" />
-        <div className="mt-2 h-4 w-5/6 rounded-full bg-white/0.8" />
+      <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-4">
+        <div className="h-[28rem] rounded-[1.5rem] bg-white/[0.04] sm:h-[34rem] lg:h-[42rem]" />
+        <div className="mt-4 h-7 w-1/3 rounded-full bg-white/10" />
+        <div className="mt-3 h-4 w-full rounded-full bg-white/10" />
+        <div className="mt-2 h-4 w-5/6 rounded-full bg-white/10" />
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="rounded-[2rem] border border-white/10 bg-white/0.03 p-6">
+      <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-6">
         <p className="text-lg font-medium text-white">Events could not be loaded.</p>
         <p className="mt-2 text-sm text-zinc-400">{error}</p>
       </div>
@@ -66,7 +66,7 @@ export default function Slider({ events, loading, error }) {
 
   if (!activeSlide) {
     return (
-      <div className="rounded-[2rem] border border-white/10 bg-white/0.03 p-6">
+      <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-6">
         <p className="text-lg font-medium text-white">No events yet</p>
         <p className="mt-2 text-sm text-zinc-400">
           Create events from the admin dashboard and they will appear here.
@@ -76,7 +76,7 @@ export default function Slider({ events, loading, error }) {
   }
 
   return (
-    <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/0.03 p-4">
+    <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-4">
       <div className="mb-4 flex items-end justify-between gap-4 px-2">
         <div>
           <p className="text-xs uppercase tracking-[0.24em] text-white/35">
@@ -107,42 +107,50 @@ export default function Slider({ events, loading, error }) {
         ) : null}
       </div>
 
-      <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/0.03">
+      <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.03]">
         <div
-          className="relative h-26rem border-b border-white/10"
+          className="relative h-[28rem] sm:h-[34rem] lg:h-[42rem]"
           style={getEventCardStyle(activeSlide.image_url)}
         >
-          <div className="absolute inset-0 linear-gradient-to-t from-[#05070d] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,7,13,0.06)_0%,rgba(5,7,13,0.14)_36%,rgba(5,7,13,0.56)_76%,rgba(5,7,13,0.88)_100%)]" />
           <div className="absolute left-5 top-5 rounded-full border border-white/15 bg-black/20 px-3 py-1 text-xs uppercase tracking-[0.24em] text-white/80 backdrop-blur-sm">
             Event #{activeSlide.id}
           </div>
-        </div>
+          <div className="absolute right-5 top-5 rounded-full border border-white/15 bg-black/25 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+            {formatEventPrice(activeSlide.price)}
+          </div>
 
-        <div className="p-6">
-          <h3 className="text-2xl font-semibold tracking-tight text-white">
-            {activeSlide.title}
-          </h3>
-          <p className="mt-3 min-h-24 max-w-3xl text-sm leading-7 text-zinc-400">
-            {activeSlide.description}
-          </p>
-
-          {slides.length > 1 ? (
-            <div className="mt-6 flex items-center gap-2">
-              {slides.map((event, index) => (
-                <button
-                  key={event.id}
-                  type="button"
-                  onClick={() => goToSlide(index)}
-                  aria-label={`Go to ${event.title}`}
-                  className={`h-2.5 rounded-full transition ${
-                    index === activeIndex
-                      ? "w-8 bg-white"
-                      : "w-2.5 bg-white/25 hover:bg-white/45"
-                  }`}
-                />
-              ))}
+          <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 lg:p-10">
+            <div className="max-w-3xl">
+              <p className="text-xs uppercase tracking-[0.24em] text-white/65">
+                Ticket price {formatEventPrice(activeSlide.price)}
+              </p>
+              <h3 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
+                {activeSlide.title}
+              </h3>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-zinc-200/90 sm:text-base">
+                {activeSlide.description}
+              </p>
             </div>
-          ) : null}
+
+            {slides.length > 1 ? (
+              <div className="mt-8 flex items-center gap-2">
+                {slides.map((event, index) => (
+                  <button
+                    key={event.id}
+                    type="button"
+                    onClick={() => goToSlide(index)}
+                    aria-label={`Go to ${event.title}`}
+                    className={`h-2.5 rounded-full transition ${
+                      index === activeIndex
+                        ? "w-10 bg-white"
+                        : "w-2.5 bg-white/45 hover:bg-white/70"
+                    }`}
+                  />
+                ))}
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>

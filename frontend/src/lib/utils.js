@@ -2,6 +2,11 @@ import { clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
 const BACKEND_BASE_URL = "http://127.0.0.1:8000"
+const PRICE_FORMATTER = new Intl.NumberFormat("en-IN", {
+  style: "currency",
+  currency: "INR",
+  minimumFractionDigits: 0,
+})
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs))
@@ -17,7 +22,8 @@ export function resolveMediaUrl(mediaPath) {
   if (
     cleanMediaPath.startsWith("http://") ||
     cleanMediaPath.startsWith("https://") ||
-    cleanMediaPath.startsWith("data:")
+    cleanMediaPath.startsWith("data:") ||
+    cleanMediaPath.startsWith("blob:")
   ) {
     return cleanMediaPath
   }
@@ -42,4 +48,14 @@ export function getEventCardStyle(imageUrl) {
     backgroundImage:
       "linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 100%)",
   }
+}
+
+export function formatEventPrice(price) {
+  const numericPrice = Number(price)
+
+  if (!Number.isFinite(numericPrice) || numericPrice <= 0) {
+    return "Free"
+  }
+
+  return PRICE_FORMATTER.format(numericPrice)
 }
