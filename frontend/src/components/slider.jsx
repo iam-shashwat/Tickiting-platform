@@ -46,8 +46,8 @@ export default function Slider({ events, loading, error }) {
 
   if (loading) {
     return (
-      <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-4">
-        <div className="h-[28rem] rounded-[1.5rem] bg-white/[0.04] sm:h-[34rem] lg:h-[42rem]" />
+      <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/0.03 p-4">
+        <div className="h-96 rounded-[1.5rem] bg-white/0.04 sm:h-96 lg:h-160" />
         <div className="mt-4 h-7 w-1/3 rounded-full bg-white/10" />
         <div className="mt-3 h-4 w-full rounded-full bg-white/10" />
         <div className="mt-2 h-4 w-5/6 rounded-full bg-white/10" />
@@ -57,7 +57,7 @@ export default function Slider({ events, loading, error }) {
 
   if (error) {
     return (
-      <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-6">
+      <div className="rounded-[2rem] border border-white/10 bg-white/0.03 p-6">
         <p className="text-lg font-medium text-white">Events could not be loaded.</p>
         <p className="mt-2 text-sm text-zinc-400">{error}</p>
       </div>
@@ -66,7 +66,7 @@ export default function Slider({ events, loading, error }) {
 
   if (!activeSlide) {
     return (
-      <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-6">
+      <div className="rounded-[2rem] border border-white/10 bg-white/0.03 p-6">
         <p className="text-lg font-medium text-white">No events yet</p>
         <p className="mt-2 text-sm text-zinc-400">
           Create events from the admin dashboard and they will appear here.
@@ -76,7 +76,7 @@ export default function Slider({ events, loading, error }) {
   }
 
   return (
-    <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-4">
+    <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/0.03 p-4">
       <div className="mb-4 flex items-end justify-between gap-4 px-2">
         <div>
           <p className="text-xs uppercase tracking-[0.24em] text-white/35">
@@ -107,9 +107,9 @@ export default function Slider({ events, loading, error }) {
         ) : null}
       </div>
 
-      <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.03]">
+      <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/0.03">
         <div
-          className="relative h-[28rem] sm:h-[34rem] lg:h-[42rem]"
+          className="relative h-96 sm:h-136 lg:h-168"
           style={getEventCardStyle(activeSlide.image_url)}
         >
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,7,13,0.06)_0%,rgba(5,7,13,0.14)_36%,rgba(5,7,13,0.56)_76%,rgba(5,7,13,0.88)_100%)]" />

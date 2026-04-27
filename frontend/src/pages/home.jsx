@@ -123,7 +123,7 @@ function Home() {
             <div className="grid gap-4">
               <div className="rounded-[2rem] border border-white/10 bg-white/0.03 p-6">
                 <p className="text-xs uppercase tracking-[0.24em] text-white/35">
-                  {/* Atmosphere */}
+                  YOUR EXPERINCE
                 </p>
                 <h3 className="mt-3 text-xl font-semibold tracking-tight text-white">
                   Simple booking, no confusion.
@@ -135,7 +135,7 @@ function Home() {
 
               <div className="rounded-[2rem] border border-white/10 bg-white/0.03 p-6">
                 <p className="text-xs uppercase tracking-[0.24em] text-white/35">
-                  {/* Motion */}
+                  TRUST ON US
                 </p>
                 <h3 className="mt-3 text-xl font-semibold tracking-tight text-white">
                   Live availability

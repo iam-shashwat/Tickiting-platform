@@ -78,7 +78,7 @@ export default function Register() {
               Create your account
             </h1>
             <p className="mt-3 text-sm leading-6 text-zinc-400">
-              Set up a new account to manage bookings in the dark minimal flow.
+              Set up a new account to go ahead.
             </p>
 
             <div className="mt-8">

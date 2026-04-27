@@ -268,17 +268,30 @@ export default function Admin() {
                 Ticket price
               </label>
               <input
-                type="number"
+                type="text"
+                inputMode="numeric"
                 min="0"
                 step="1"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                placeholder=""
-                className="w-full rounded-2xl border border-white/10 bg-white/0.03 px-4 py-3 text-white outline-none transition focus:border-white/30 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                placeholder="Enter your Amount in INR"
+                className="w-full rounded-2xl border border-white/10 bg-white/0.03 px-4 py-3 text-white outline-none transition focus:border-white/30"
               />
-              <p className="mt-2 text-xs text-zinc-500">
-                Use 0 for a free event. Public pages will show {formatEventPrice(parsedPrice)}.
-              </p>
+              {isPriceInvalid && price.trim() !== "" && (
+                <p className="mt-2 text-xs text-red-400">
+                  ❌ Invalid input - Please enter numbers only, no letters or special characters.
+                </p>
+              )}
+              {!isPriceInvalid && price.trim() !== "" && (
+                <p className="mt-2 text-xs text-zinc-500">
+                  ✓ Public pages will show {formatEventPrice(parsedPrice)}.
+                </p>
+              )}
+              {price.trim() === "" && (
+                <p className="mt-2 text-xs text-zinc-500">
+                  Use 0 for a free event.
+                </p>
+              )}
             </div>
 
             <div className="mt-4">
@@ -297,7 +310,7 @@ export default function Admin() {
                   <button
                     type="button"
                     onClick={handleRemoveImage}
-                    className="rounded-2xl border border-red-500/50 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-400 transition hover:bg-red-500/20 hover:border-red-500/70"
+                    className="shrink-0 rounded-lg border border-red-500/50 bg-red-500/10 px-2 py-1 text-xs font-medium text-red-400 transition hover:bg-red-500/20 hover:border-red-500/70"
                   >
                     Remove
                   </button>
