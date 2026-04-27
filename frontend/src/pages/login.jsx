@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import SiteFooter from "../components/siteFooter"
 
 export default function Login() {
   const [email, setEmail] = useState("")
@@ -63,53 +64,87 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
-      <form
-        onSubmit={(e) => {
-        e.preventDefault()
-        handleLogin()
-       }}
-      className="w-95 bg-zinc-900 p-8 rounded-2xl shadow-xl border border-zinc-800">
-        
-        <h1 className="text-2xl font-semibold text-white mb-2">
-          Welcome Back
-        </h1>
+    <div className="min-h-screen overflow-hidden bg-[#05070d] text-white">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute left-5rem top-4rem h-56 w-56 rounded-full bg-white/6 blur-3xl" />
+        <div className="absolute bottom-5rem right-5rem h-64 w-64 rounded-full bg-white/4 blur-3xl" />
+      </div>
 
-        <p className="text-zinc-400 mb-6 text-sm">
-          Login to access your dashboard
-        </p>
-
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full mb-4 px-4 py-3 rounded-lg bg-zinc-800 text-white outline-none border border-zinc-700 focus:border-white transition"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full mb-6 px-4 py-3 rounded-lg bg-zinc-800 text-white outline-none border border-zinc-700 focus:border-white transition"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-3 rounded-lg bg-white text-black font-medium hover:bg-zinc-200 transition disabled:opacity-50"
-        >
-          {loading ? "Logging in..." : "Login"}
-        </button>
-        <p className="text-zinc-400 text-sm mt-4 text-center">
-            Don't have an account?{" "}
-          <span
-            onClick={() => navigate("/register")}
-            className="text-white cursor-pointer hover:underline"
+      <div className="relative z-10 flex min-h-screen flex-col">
+        <header className="mx-auto w-full max-w-6xl px-6 py-5">
+          <Link
+            to="/"
+            className="text-sm font-medium uppercase tracking-[0.28em] text-white/75"
           >
-               Register
-         </span>
-        </p>
-      </form>
+            Event Horizon
+          </Link>
+        </header>
+
+        <main className="flex flex-1 items-center justify-center px-6 pb-12">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              handleLogin()
+            }}
+            className="w-full max-w-md rounded-3xl border border-white/10 bg-[#0c1017] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
+          >
+            <p className="text-sm uppercase tracking-[0.28em] text-white/40">
+              Login
+            </p>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white">
+              Welcome back
+            </h1>
+            <p className="mt-3 text-sm leading-6 text-zinc-400">
+              Sign in to continue booking events from your account.
+            </p>
+
+            <div className="mt-8">
+              <label className="mb-2 block text-sm text-white/60">Email</label>
+              <input
+                type="email"
+                value={email}
+                placeholder="you@example.com"
+                className="w-full rounded-2xl border border-white/10 bg-white/0.03 px-4 py-3 text-white outline-none transition focus:border-white/30"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="mt-4">
+              <label className="mb-2 block text-sm text-white/60">
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                placeholder="Enter your password"
+                className="w-full rounded-2xl border border-white/10 bg-white/0.03 px-4 py-3 text-white outline-none transition focus:border-white/30"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading || !email || !password}
+              className="mt-8 w-full rounded-2xl bg-white py-3 text-sm font-medium text-black transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
+
+            <p className="mt-5 text-center text-sm text-zinc-400">
+              Don't have an account?{" "}
+              <button
+                type="button"
+                onClick={() => navigate("/register")}
+                className="text-white transition hover:text-zinc-300"
+              >
+                Register
+              </button>
+            </p>
+          </form>
+        </main>
+
+        <SiteFooter />
+      </div>
     </div>
   )
 }

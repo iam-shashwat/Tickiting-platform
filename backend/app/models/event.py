@@ -7,5 +7,6 @@ class Event(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String)
     description = Column(String)
+    image_url = Column(String, nullable=True)
 
     created_by = Column(Integer, ForeignKey("users.id"))
