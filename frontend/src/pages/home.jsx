@@ -86,8 +86,8 @@ function Home() {
   return (
     <div className="min-h-screen overflow-hidden bg-[#05070d] text-white">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-[-6rem] top-[-6rem] h-64 w-64 rounded-full bg-white/6 blur-3xl" />
-        <div className="absolute right-[-5rem] top-24 h-72 w-72 rounded-full bg-white/4 blur-3xl" />
+        <div className="absolute left-6rem top-6rem h-64 w-64 rounded-full bg-white/6 blur-3xl" />
+        <div className="absolute right-5rem top-24 h-72 w-72 rounded-full bg-white/4 blur-3xl" />
       </div>
 
       <div className="relative z-10">
@@ -124,28 +124,28 @@ function Home() {
           </div>
 
           {loading ? (
-            <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-4">
-              <div className="h-[28rem] rounded-[1.5rem] bg-white/[0.04] sm:h-[34rem] lg:h-[42rem]" />
+            <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/0.03 p-4">
+              <div className="h-28rem rounded-[1.5rem] bg-white/0.04 sm:h-34rem lg:h-42rem" />
               <div className="mt-4 h-7 w-1/3 rounded-full bg-white/8" />
               <div className="mt-3 h-4 w-full rounded-full bg-white/8" />
               <div className="mt-2 h-4 w-5/6 rounded-full bg-white/8" />
             </div>
           ) : error ? (
-            <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-6">
+            <div className="rounded-[2rem] border border-white/10 bg-white/0.03 p-6">
               <p className="text-lg font-medium text-white">
                 Events could not be loaded.
               </p>
               <p className="mt-2 text-sm text-zinc-400">{error}</p>
             </div>
           ) : !activeSlide ? (
-            <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-6">
+            <div className="rounded-[2rem] border border-white/10 bg-white/0.03 p-6">
               <p className="text-lg font-medium text-white">No events yet</p>
               <p className="mt-2 text-sm text-zinc-400">
                 Create events from the admin dashboard and they will appear here.
               </p>
             </div>
           ) : (
-            <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] p-4">
+            <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/0.03 p-4">
               <div className="mb-4 flex items-end justify-between gap-4 px-2">
                 <div>
                   <p className="text-xs uppercase tracking-[0.24em] text-white/35">
@@ -176,9 +176,9 @@ function Home() {
                 ) : null}
               </div>
 
-              <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.03]">
+              <div className="overflow-hidden rounded-1.5rem border border-white/10 bg-white/0.03">
                 <div
-                  className="relative h-[28rem] sm:h-[34rem] lg:h-[42rem]"
+                  className="relative h-28rem sm:h-34rem lg:h-42rem"
                   style={getEventCardStyle(activeSlide.image_url)}
                 >
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,7,13,0.06)_0%,rgba(5,7,13,0.14)_36%,rgba(5,7,13,0.56)_76%,rgba(5,7,13,0.88)_100%)]" />
@@ -221,7 +221,7 @@ function Home() {
           )}
 
           <section className="mt-14 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-8">
+            <div className="rounded-[2rem] border border-white/10 bg-white/0.03 p-8">
               <p className="text-sm uppercase tracking-[0.28em] text-white/40">
                 Minimal event booking
               </p>
@@ -235,7 +235,7 @@ function Home() {
               </p>
 
               <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5">
+                <div className="rounded-3xl border border-white/10 bg-white/0.03 p-5">
                   <p className="text-xs uppercase tracking-[0.24em] text-white/35">
                     Events
                   </p>
@@ -243,13 +243,13 @@ function Home() {
                     {events.length}
                   </p>
                 </div>
-                <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5">
+                <div className="rounded-3xl border border-white/10 bg-white/0.03 p-5">
                   <p className="text-xs uppercase tracking-[0.24em] text-white/35">
                     Interface
                   </p>
                   <p className="mt-3 text-lg font-medium text-white">Minimal</p>
                 </div>
-                <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5">
+                <div className="rounded-3xl border border-white/10 bg-white/0.03 p-5">
                   <p className="text-xs uppercase tracking-[0.24em] text-white/35">
                     Access
                   </p>
@@ -259,7 +259,7 @@ function Home() {
             </div>
 
             <div className="grid gap-4">
-              <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-6">
+              <div className="rounded-[2rem] border border-white/10 bg-white/0.03 p-6">
                 <p className="text-xs uppercase tracking-[0.24em] text-white/35">
                   Atmosphere
                 </p>
@@ -272,7 +272,7 @@ function Home() {
                 </p>
               </div>
 
-              <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-6">
+              <div className="rounded-[2rem] border border-white/10 bg-white/0.03 p-6">
                 <p className="text-xs uppercase tracking-[0.24em] text-white/35">
                   Motion
                 </p>
