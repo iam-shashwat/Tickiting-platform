@@ -287,7 +287,7 @@ export default function Admin() {
                   ✓ Public pages will show {formatEventPrice(parsedPrice)}.
                 </p>
               )}
-              {price.trim() === "" && (
+               {price.trim() === "" && (
                 <p className="mt-2 text-xs text-zinc-500">
                   Use 0 for a free event.
                 </p>

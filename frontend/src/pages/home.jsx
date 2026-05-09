@@ -109,7 +109,7 @@ function Home() {
                   <p className="text-xs uppercase tracking-[0.24em] text-white/35">
                     CATEGORIES  
                   </p>
-                  <p className="mt-3 text-lg font-medium text-white">Movies 🍿 Concerts • Shows</p>
+                  <p className="mt-3 text-lg font-medium text-white">Movies 🍿 Concerts 🎊 Shows 🎭</p>
                 </div>
                 <div className="rounded-3xl border border-white/10 bg-white/0.03 p-5">
                   <p className="text-xs uppercase tracking-[0.24em] text-white/35">
